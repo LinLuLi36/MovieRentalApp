@@ -22,25 +22,33 @@ namespace MovieRentalApp.Web.Modules
         public override string Build(int customerId, ref double totalAmount, IRentalService rentalService, 
             IMovieService movieService)
         {
-            double amountReplace = 0;
-            var result = String.Empty;
-            var customerRegularMovieRentals = rentalService
-                .GetCustomerRentalsByMovieType(customerId, MovieType.Children)
-                .OrderBy(r => r.MovieId).ToList();
-
-            if (!customerRegularMovieRentals.Any())
-                return result;
-
-            customerRegularMovieRentals.ForEach(r =>
+            try
             {
-                double thisAmount = 1.5 + (r.DaysRented > 3 ? (r.DaysRented - 3) * 1.5 : 0);
-                result += StatementGenerator.CreateRentalStatementEachMovie(thisAmount,
-                    movieService.GetMovieTitleByMovieId(r.MovieId));
-                amountReplace += thisAmount;
-            });
+                double amountReplace = 0;
+                var result = String.Empty;
+                var customerRegularMovieRentals = rentalService
+                    .GetCustomerRentalsByMovieType(customerId, MovieType.Children)
+                    .OrderBy(r => r.MovieId).ToList();
 
-            totalAmount += amountReplace;
-            return result;
+                if (!customerRegularMovieRentals.Any())
+                    return result;
+
+                customerRegularMovieRentals.ForEach(r =>
+                {
+                    double thisAmount = 1.5 + (r.DaysRented > 3 ? (r.DaysRented - 3) * 1.5 : 0);
+                    result += StatementGenerator.CreateRentalStatementEachMovie(thisAmount,
+                        movieService.GetMovieTitleByMovieId(r.MovieId));
+                    amountReplace += thisAmount;
+                });
+
+                totalAmount += amountReplace;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                //log error message here
+                return String.Empty;
+            }
         }
     }
 }
