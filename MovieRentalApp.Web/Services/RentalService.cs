@@ -28,7 +28,7 @@ namespace MovieRentalApp.Web.Services
         }
 
         /// <summary>
-        /// This method returns all the movie of a specific type the customer rented 
+        /// This method returns all the movies of a specific type the customer rented 
         /// </summary>
         /// <param name="customerId"></param>
         /// <param name="movieType"></param>

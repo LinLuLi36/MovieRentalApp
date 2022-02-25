@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MovieRentalApp.Web.Models;
-
-namespace MovieRentalApp.Web.Utilities
+﻿namespace MovieRentalApp.Web.Utilities
 {
     /// <summary>
-    /// Generates different statements for customer rentals
+    /// Generates different statement sections for customer rentals
     /// </summary>
     public static class StatementGenerator
     {

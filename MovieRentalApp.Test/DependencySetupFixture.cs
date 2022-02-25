@@ -9,7 +9,7 @@ namespace MovieRentalApp.Test
     public class DependencySetupFixture
     {
         /// <summary>
-        /// This class is made for dependency registration
+        /// This class is made for dependency injection
         /// </summary>
         public DependencySetupFixture()
         {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using MovieRentalApp.Web.Interfaces.Repositories;
 using MovieRentalApp.Web.Interfaces.Services;
 using MovieRentalApp.Web.Models;

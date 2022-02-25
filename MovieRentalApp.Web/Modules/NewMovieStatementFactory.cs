@@ -23,7 +23,7 @@ namespace MovieRentalApp.Web.Modules
             IRentalService rentalService, IMovieService movieService)
         {
             double amountReplace = 0;
-            var result = string.Empty;
+            var result = String.Empty;
             var customerRegularMovieRentals = rentalService
                 .GetCustomerRentalsByMovieType(customerId, MovieType.NewRelease)
                 .OrderBy(r => r.MovieId).ToList();

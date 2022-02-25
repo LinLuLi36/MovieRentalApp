@@ -15,7 +15,6 @@ namespace MovieRentalApp.Web.Modules
         /// The method generates a result string that includes all the new released movies, the customer has rented
         /// </summary>
         /// <param name="customerId"></param>
-        /// <param name="result"></param>
         /// <param name="totalAmount"></param>
         /// <param name="rentalService"></param>
         /// <param name="movieService"></param>
@@ -24,7 +23,7 @@ namespace MovieRentalApp.Web.Modules
             IMovieService movieService)
         {
             double amountReplace = 0;
-            var result = string.Empty;
+            var result = String.Empty;
             var customerRegularMovieRentals = rentalService
                 .GetCustomerRentalsByMovieType(customerId, MovieType.Children)
                 .OrderBy(r => r.MovieId).ToList();
