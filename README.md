@@ -1,5 +1,5 @@
 # MovieRentalApp
-I have made a backend CustomerStatementService which generates a combination of statements based on the type of movies a customer rented.<br />  
+I have made a backend CustomerStatementService which generates a combination of statements based on the type of movies a customer rented.  
 A module for each type of movie is created to calcualte the amount and then generate a statement based on the movies.<br /> 
 I have also made unittests which test each of the modules and the whole statement generation process.<br /> 
 
