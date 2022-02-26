@@ -4,7 +4,7 @@ using MovieRentalApp.Web.Modules;
 using MovieRentalApp.Web.Utilities;
 using Xunit;
 
-namespace MovieRentalApp.Test
+namespace MovieRentalApp.Test.Tests
 {
     public class StatementFactoryTest
     {
@@ -24,12 +24,15 @@ namespace MovieRentalApp.Test
             _movieService = scope.ServiceProvider.GetService<IMovieService>();
         }
 
+        /// <summary>
+        /// This tests NewMovieStatementFactory with single statement
+        /// </summary>
         [Fact]
         public void BuildNewMovieStatementTest()
         {
             double amount = 0;
             var newReleaseStatementFactory = new NewMovieStatementFactory();
-            var statementResult = newReleaseStatementFactory.Build(_firstCustomerId, ref amount,
+            var statementResult = newReleaseStatementFactory.BuildStatement(_firstCustomerId, ref amount,
                 _rentalService, _movieService);
 
             //For the movie "Tenet" the DaysRented = 5 and then amount = 5 * 3 = 15
@@ -38,12 +41,15 @@ namespace MovieRentalApp.Test
             Assert.Equal(statementExpected, statementResult);
         }
 
+        /// <summary>
+        /// This tests RegularMovieStatementFactory with single statement
+        /// </summary>
         [Fact]
         public void BuildRegularMovieStatementTest()
         {
             double amount = 0;
             var statementFactory = new RegularMovieStatementFactory();
-            var statementResult = statementFactory.Build(_firstCustomerId, ref amount, _rentalService,
+            var statementResult = statementFactory.BuildStatement(_firstCustomerId, ref amount, _rentalService,
                 _movieService);
 
             //For the movie "Titanic" the DaysRented = 3 and then amount = 2 + 1 * 1.5 = 3.5
@@ -52,12 +58,15 @@ namespace MovieRentalApp.Test
             Assert.Equal(statementExpected, statementResult);
         }
 
+        /// <summary>
+        /// This tests ChildrenMovieStatementFactory with single statement
+        /// </summary>
         [Fact]
         public void BuildChildrenMovieStatementTest()
         {
             double amount = 0;
             var statementFactory = new ChildrenMovieStatementFactory();
-            var statementResult = statementFactory.Build(_firstCustomerId, ref amount, _rentalService,
+            var statementResult = statementFactory.BuildStatement(_firstCustomerId, ref amount, _rentalService,
                 _movieService);
 
             //For the movie "Frozen" the DaysRented = 2 and then amount = 1.5 
@@ -66,12 +75,15 @@ namespace MovieRentalApp.Test
             Assert.Equal(statementExpected, statementResult);
         }
 
+        /// <summary>
+        /// This tests ChildrenMovieStatementFactory with dual statements
+        /// </summary>
         [Fact]
         public void BuildCombinedChildrenMovieStatementTest()
         {
             double amount = 0;
             var statementFactory = new ChildrenMovieStatementFactory();
-            var statementResult = statementFactory.Build(_secondCustomerId, ref amount, _rentalService,
+            var statementResult = statementFactory.BuildStatement(_secondCustomerId, ref amount, _rentalService,
                 _movieService);
 
             //For the movie "Jungle Cruise" the DaysRented = 1 and then amount = 1.5
@@ -82,12 +94,15 @@ namespace MovieRentalApp.Test
             Assert.Equal(statementExpected, statementResult);
         }
 
+        /// <summary>
+        /// This tests NewMovieStatementFactory with dual statements
+        /// </summary>
         [Fact]
         public void BuildCombinedNewMovieStatementTest()
         {
             double amount = 0;
             var statementFactory = new NewMovieStatementFactory();
-            var statementResult = statementFactory.Build(_secondCustomerId, ref amount, _rentalService,
+            var statementResult = statementFactory.BuildStatement(_secondCustomerId, ref amount, _rentalService,
                 _movieService);
             
             //For the movie "The Batman" the DaysRented = 2 and then amount = 2 * 3 = 6
@@ -98,12 +113,15 @@ namespace MovieRentalApp.Test
             Assert.Equal(statementExpected, statementResult);
         }
 
+        /// <summary>
+        /// This tests RegularMovieStatementFactory with dual statements
+        /// </summary>
         [Fact]
         public void BuildCombinedRegularMovieStatementTest()
         {
             double amount = 0;
             var statementFactory = new RegularMovieStatementFactory();
-            var statementResult = statementFactory.Build(_secondCustomerId, ref amount, _rentalService,
+            var statementResult = statementFactory.BuildStatement(_secondCustomerId, ref amount, _rentalService,
                 _movieService);
 
             //For the movie "Harry Potter" the DaysRented = 5 and then amount = 2 + (3 * 1.5) = 6.5 

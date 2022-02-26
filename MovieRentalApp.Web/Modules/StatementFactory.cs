@@ -7,7 +7,7 @@ namespace MovieRentalApp.Web.Modules
     /// </summary>
     public abstract class StatementFactory
     {
-        public abstract string Build(int customerId, ref double totalAmount,
+        public abstract string BuildStatement(int customerId, ref double totalAmount,
             IRentalService rentalService, IMovieService movieService);
     }
 }

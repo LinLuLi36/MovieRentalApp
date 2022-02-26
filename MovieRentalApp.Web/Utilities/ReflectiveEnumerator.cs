@@ -6,7 +6,7 @@ using System.Reflection;
 namespace MovieRentalApp.Web.Utilities
 {
     /// <summary>
-    /// Searching for all modules
+    /// Searching for all modules 
     /// </summary>
     public static class ReflectiveEnumerator
     {

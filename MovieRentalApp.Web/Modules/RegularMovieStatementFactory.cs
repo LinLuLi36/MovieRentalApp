@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Linq;
 using MovieRentalApp.Web.Interfaces.Services;
 using MovieRentalApp.Web.Models;
-using MovieRentalApp.Web.Utilities;
 
 namespace MovieRentalApp.Web.Modules
 {
@@ -19,29 +17,17 @@ namespace MovieRentalApp.Web.Modules
         /// <param name="rentalService"></param>
         /// <param name="movieService"></param>
         /// <returns></returns>
-        public override string Build(int customerId, ref double totalAmount, IRentalService rentalService,
+        public override string BuildStatement(int customerId, ref double totalAmount, IRentalService rentalService,
             IMovieService movieService)
         {
-            double amountReplace = 0;
-            var result = String.Empty;
-            var customerRegularMovieRentals = rentalService
-                .GetCustomerRentalsByMovieType(customerId, MovieType.Regular)
-                .OrderBy(r => r.MovieId).ToList();
+            // How the amount of MovieType = Regular is calculated
+            var calculateAmount =
+                new Func<int, double>(daysRented => 2 + (daysRented > 2 ? (daysRented - 2) * 1.5 : 0));
 
-            if (!customerRegularMovieRentals.Any())
-                return result;
-
-            customerRegularMovieRentals.ForEach(r =>
-            {
-                double thisAmount = 2 + (r.DaysRented > 2 ? (r.DaysRented - 2) * 1.5 : 0);
-                result += StatementGenerator.CreateRentalStatementEachMovie(thisAmount,
-                    movieService.GetMovieTitleByMovieId(r.MovieId));
-                amountReplace += thisAmount;
-            });
-
-            totalAmount += amountReplace;
-
-            return result;
+            return MovieTypesStatementBuilder.Build(customerId, MovieType.Regular, ref totalAmount,
+                rentalService, movieService, calculateAmount);
         }
+
+        
     }
 }

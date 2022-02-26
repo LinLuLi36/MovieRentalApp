@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MovieRentalApp.Web.Interfaces.Services;
 using MovieRentalApp.Web.Modules;
 using MovieRentalApp.Web.Utilities;
@@ -20,35 +21,43 @@ namespace MovieRentalApp.Web.Services
         }
 
         /// <summary>
-        /// This method returns the complete statement of all movies the customer has rented
+        /// The method returns the complete statement of all movies the customer has rented
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
         public string GetCustomerStatement(int customerId)
         {
-            var result = string.Empty;
-            double totalAmount = 0;
+            try
+            {
+                var result = string.Empty;
+                double totalAmount = 0;
 
-            //Find all movies the customer has rented
-            var customerRentals = _rentalService.GetRentalsByCustomerId(customerId).ToList();
-            if (!customerRentals.Any()) return result;
+                //Find all movies the customer has rented
+                var customerRentals = _rentalService.GetRentalsByCustomerId(customerId).ToList();
+                if (!customerRentals.Any()) return result;
 
-            var frequentRenterPoints = customerRentals.Count;
-            var customerName = _customerService.GetCustomerNameByCustomerId(customerId);
+                var frequentRenterPoints = customerRentals.Count;
+                var customerName = _customerService.GetCustomerNameByCustomerId(customerId);
 
-            if (string.IsNullOrEmpty(customerName)) return result; //or log this error: the customerId is missing 
+                if (string.IsNullOrEmpty(customerName)) return result; //or log this error: the customerId is missing 
 
-            result += StatementGenerator.CreateCustomerNameStatement(customerName);
+                result += StatementGenerator.CreateCustomerNameStatement(customerName);
 
-            //Load all statement factory modules and the use them to build a combined statement for all movies the customer has rented
-            var statementModules = ModulesLoader.LoadModules<StatementFactory>().ToList();
-            statementModules.ForEach(m =>
-                result += m.Build(customerId, ref totalAmount, _rentalService, _movieService));
+                //Load all statement factory modules and then use them to build a combined statement for all movie types the customer has rented
+                var statementModules = ModulesLoader.LoadModules<StatementFactory>().ToList();
+                statementModules.ForEach(m =>
+                    result += m.BuildStatement(customerId, ref totalAmount, _rentalService, _movieService));
 
-            result += StatementGenerator.CreateTotalAmountStatement(totalAmount) 
-                      + StatementGenerator.CreateTotalFrequentRenterPointsStatement(frequentRenterPoints);
+                result += StatementGenerator.CreateTotalAmountStatement(totalAmount)
+                          + StatementGenerator.CreateTotalFrequentRenterPointsStatement(frequentRenterPoints);
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                //log error message here
+                return String.Empty;
+            }
         }
     }
 }

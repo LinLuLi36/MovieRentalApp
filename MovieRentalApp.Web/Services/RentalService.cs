@@ -18,7 +18,7 @@ namespace MovieRentalApp.Web.Services
         }
 
         /// <summary>
-        /// This method returns all rentals the customer have 
+        /// The method returns all rentals the customer have 
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
@@ -28,7 +28,7 @@ namespace MovieRentalApp.Web.Services
         }
 
         /// <summary>
-        /// This method returns all the movies of a specific type the customer rented 
+        /// The method returns all the movies of a specific type the customer rented 
         /// </summary>
         /// <param name="customerId"></param>
         /// <param name="movieType"></param>
